@@ -1,0 +1,30 @@
+<div>
+    <button class="btn action-btn" style="margin: 20px" (click)="toggleStepsVisibility()"> {{ shouldShowAllSteps ?
+        'Hide' : 'Show all API requests step by step' }} </button>
+    <table *ngIf="shouldShowAllSteps" class="table-step">
+        <thead>
+            <tr>
+                <th width="200">Step description</th>
+                <th width="60">HTTP method</th>
+                <th width="515">Endpoint</th>
+                <th>Request query parameters</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let step of stepRows">
+                <td>{{ step.description }}</td>
+                <td>{{ step.method }}</td>
+                <td>https://graph.facebook.com/v10.0/{{ step.endpoint }}</td>
+                <td>
+                    <pre>{{ step.requestQueryParams | json }}</pre>
+                </td>
+                <td>
+                    <pre *ngIf="step.response">{{ step.response | json }}</pre>
+                    <button *ngIf="!step.response" class="btn action-btn" [disabled]="step.isDisabled"
+                        (click)="completeStep(step)"> {{ step.isDisabled ? 'Sending...' : 'Send request' }} </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

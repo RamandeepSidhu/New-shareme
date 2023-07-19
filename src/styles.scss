@@ -1,0 +1,129 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.container {
+  max-width: 1170px;
+  width: 100%;
+  margin: 0 auto;
+  .container_wrap {
+    text-align: center;
+  }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #f9f9f9;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  margin: 0;
+  margin-bottom: 60px;
+  background-color: #252526;
+  color: #e4e6eb;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.sb-icon {
+  color: black;
+  font-size: 15px;
+}
+
+#app-main {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 20px 24px;
+}
+
+textarea {
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-top: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+input {
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 12px 8px;
+}
+
+.app-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-section:not(:first-child) {
+  margin-top: 24px;
+}
+
+.btn {
+  border-radius: 4px;
+  color: #e4e6eb;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  background-color: #494949;
+  color: #ccc;
+}
+
+.btn:disabled:hover {
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):hover {
+  filter: brightness(0.9);
+}
+
+.action-btn {
+  background-color: #2d88ff;
+  margin-top: 8px;
+}
+.table-step {
+  margin: 0 auto;
+  margin-top: 16px;
+  border-collapse: collapse;
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  overflow: auto;
+  overflow-y: hidden;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
