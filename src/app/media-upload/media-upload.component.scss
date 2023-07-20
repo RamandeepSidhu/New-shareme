@@ -2,6 +2,7 @@
   max-width: 1000px;
   width: 100%;
   margin: 60px auto 0;
+  padding: 30px;
   .post-create {
     display: flex;
     justify-content: space-between;
@@ -96,7 +97,7 @@
   }
 
   .dropdown-content input {
-    width: 100%;
+    // width: 100%;
     margin-bottom: 8px;
   }
 
@@ -231,4 +232,13 @@ button.copy-button {
 }
 .share-btn > a:hover {
   cursor: pointer;
+}
+mat-card-title.mat-mdc-card-title {
+  color: black;
+}
+button.btn.action-btn {
+  margin-left: 22px;
+}
+span {
+  color: black;
 }

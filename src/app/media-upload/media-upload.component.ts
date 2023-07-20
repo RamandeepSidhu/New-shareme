@@ -2,6 +2,18 @@ import { Component, Input } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
 import { Token } from '@angular/compiler';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+interface FacebookPage {
+  id: string;
+  name: string;
+}
+
+interface StepRow {
+  description: string;
+  method: string;
+  endpoint: string;
+  requestQueryParams: any;
+  isDisabled: boolean;
+}
 export class textResponse {
   sno: number = 1;
   text: string = '';
@@ -27,7 +39,7 @@ export class MediaUploadComponent {
   isAIAssistOpen: boolean = false;
   formData: FormData = new FormData();
   pageId: string = '110499812113968';
-  accessToken = 'EAADjr33njLcBAKS62ZCOszkpVptev40Gn5pYDywkBfldut0el0Lf2yJ6NEUBc7a0uUydOAFfnmmcDcAWEsZAVRHBejNQedmIc0GMdOFKz0sYLKRVgjjGNXkMCLJnqJX5g6i8DT9U8Xdoe2vfRsAfAgBCBxBQsazahX9KUyd3u2MQW1BZB5u7ZCaFO5jtF4MrAIOeOBrC7mfZCwOvwExNu';
+  accessToken = 'EAADjr33njLcBABvIXnITjmpd1wgUYrkmgq9XIq6zSZBqpfnoDlAJbNLal83fZBUYRbiStAi7cHOkBRlwprVaEqVuFHO4DcWv7KvvZCZCXoJ2SsvuvhRxoGolyfnln4hg0uur6opRo5SSEZBQV9SAutBtZBGHra9T58BNXE8peFtIS7vEgx65tnjrGUQ1cHA4LHc0ihIJYTMFuJWxUugOGK';
 
   hashtags = [
     { id: "spread", value: "#spread", color: 3, twitter: "8", instagram: null },
@@ -37,31 +49,16 @@ export class MediaUploadComponent {
   shareLink: any;
   newTextList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   hastageCardText: any;
-  facebookUserAccessToken: any;
+  imagesData: any;
+  taggedUsername: any;
+  imageUrl: string = '';
+  postCaption: string = '';
+  isSharingPost: boolean = false;
+  facebookUserAccessToken: any = 'EAADjr33njLcBAHC4Ls3KesxXXZAbfcZBBwSJoIbdImznuND64HJSatAVBXGSWIv6MKmuXuturwzMzgcKq0q57O4NY4eVtKiC80shc4puG98doD26cUFbYZA1NSzJk2j9IJkEZBD4e0WNqUMg7fLlD8BTBZAR09H5aHmwEiGYrFr4mWwva9OEU2LlQfR9NOFM67HotsBLBig6gUQy4ws5s';
   constructor(private openaiService: ChatGptService, private http: HttpClient) { }
   ngOnInit() {
     this.post();
   }
-  // onSelectFile(event: any) {
-  //   const files = event.target.files;
-  //   if (files) {
-  //     for (const file of files) {
-  //       const reader = new FileReader();
-  //       reader.onload = (event: any) => {
-  //         const dataUrl = event.target.result;
-  //         const type = file.type.indexOf("image") > -1 ? "img" : "video";
-  //         const url = URL.createObjectURL(file);
-
-  //         this.mydata.push({ url, type });
-  //         console.log(url)
-
-  //       };
-  //       reader.readAsDataURL(file);
-  //     }
-  //   }
-  // }.
-
-
   hastageText(dataList: textResponse[], searchText: any) {
     this.showSpinner = true;
     const generatedTextPromises = dataList.map((data: textResponse) => {
@@ -133,12 +130,7 @@ export class MediaUploadComponent {
       });
     this.isCopied = true;
   }
-  authorizeInstagram() {
-    const authorizationUrl =
-      'https://www.instagram.com/accounts/login/?force_authentication=1&enable_fb_login=1&next=%2Foauth%2Fauthorize%2F%3Fredirect_uri%3Dhttps%3A%2F%2Fdevelopers.facebook.com%2Finstagram%2Ftoken_generator%2Foauth%2F%26client_id%3D670732831755066%26response_type%3Dcode%26scope%3Duser_profile%2Cuser_media%26state%3D%257B%2522app_id%2522%3A%2522670732831755066%2522%2C%2522user_id%2522%3A%252217841460905824907%2522%2C%2522nonce%2522%3A%25225WV0RznFRIM1IuMV%2522%257D%26logger_id%3D277dfd7e-3839-4ff9-b48e-248f6c68cd1d';
 
-    window.open(authorizationUrl, '_blank');
-  }
 
   updateCharacterCount() {
     const words = this.bioText.trim().split(/\s+/);
@@ -201,34 +193,13 @@ export class MediaUploadComponent {
     this.bioText += " " + hashtag.value;
   }
 
-
-  // facebook integration
-
-  // imagesUrlData: any = "http://floral.fox-sandbox.co.uk/media/wysiwyg/valentines-blog.jpg"
-
-  // publishToInstagram(imageURL: any) {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${this.accessToken}`
-  //   });
-  //   this.http.post(`https://graph.facebook.com/110499812113968/photos?url=${this.imagesUrlData}&access_token=${this.accessToken}`, '')
-  //     .subscribe(
-  //       (response: any) => {
-  //         this.post()
-  //         console.log('Post published successfully:', response);
-  //       },
-  //       (error: any) => {
-  //         console.error('Error publishing post:', error);
-  //       }
-  //     );
-  // }
   selectedFile: File | null = null;
-  onSelectFile(event: any) {
+  onSelectFacebook(event: any) {
     const fileReader: FileReader = new FileReader();
     const file = event.target.files[0];
     this.selectedFile = file;
 
-    const pageAccessToken = 'EAADjr33njLcBAKS62ZCOszkpVptev40Gn5pYDywkBfldut0el0Lf2yJ6NEUBc7a0uUydOAFfnmmcDcAWEsZAVRHBejNQedmIc0GMdOFKz0sYLKRVgjjGNXkMCLJnqJX5g6i8DT9U8Xdoe2vfRsAfAgBCBxBQsazahX9KUyd3u2MQW1BZB5u7ZCaFO5jtF4MrAIOeOBrC7mfZCwOvwExNu';
+    const pageAccessToken = 'EAADjr33njLcBABvIXnITjmpd1wgUYrkmgq9XIq6zSZBqpfnoDlAJbNLal83fZBUYRbiStAi7cHOkBRlwprVaEqVuFHO4DcWv7KvvZCZCXoJ2SsvuvhRxoGolyfnln4hg0uur6opRo5SSEZBQV9SAutBtZBGHra9T58BNXE8peFtIS7vEgx65tnjrGUQ1cHA4LHc0ihIJYTMFuJWxUugOGK';
 
     fileReader.onloadend = () => {
       const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
@@ -246,80 +217,6 @@ export class MediaUploadComponent {
 
     fileReader.readAsArrayBuffer(file);
   }
-
-  // publishToFacebook(formData: FormData, pageId: any) {
-  //   const publishURL = `https://graph.facebook.com/${pageId}/videos`;
-  //   const publisPhotohURL = `https://graph.facebook.com/${pageId}/photos`;
-
-  //   fetch(publishURL, {
-  //     body: formData,
-  //     method: 'POST'
-  //   })
-  //     .then((response) => response.json())
-  //     .then((responseData) => {
-  //       console.log('Post published successfully:', responseData);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error publishing post:', error);
-  //     });
-  // }
-  // publishToFacebook(formData: FormData, pageId: any, selectedFiles: File[]) {
-  //   const publishURL = `https://graph.facebook.com/${pageId}/videos`;
-  //   const publishPhotoURL = `https://graph.facebook.com/${pageId}/photos`;
-  //   const publishFeedURL = `https://graph.facebook.com/${pageId}/feed`;
-
-  //   const uploadPromises = [];
-
-  //   for (const file of selectedFiles) {
-  //     if (file instanceof File) {
-  //       const fileType = file.type;
-  //       const isImage = fileType.startsWith('image/');
-  //       const isVideo = fileType.startsWith('video/');
-
-  //       if (isImage || isVideo) {
-  //         const uploadFormData = new FormData();
-  //         uploadFormData.append('access_token', formData.get('access_token') as string);
-  //         uploadFormData.append('source', file);
-  //         uploadFormData.append('message', this.bioText); // Add the bio text
-
-  //         const publishEndpoint = isImage ? publishPhotoURL : publishURL;
-
-  //         uploadPromises.push(
-  //           fetch(publishEndpoint, {
-  //             body: uploadFormData,
-  //             method: 'POST'
-  //           })
-  //             .then((response) => response.json())
-  //             .then((responseData) => {
-  //               const fileTypeText = isImage ? 'Photo' : 'Video';
-  //               console.log(`${fileTypeText} published successfully:`, responseData);
-  //             })
-  //             .catch((error) => {
-  //               const fileTypeText = isImage ? 'photo' : 'video';
-  //               console.error(`Error publishing ${fileTypeText}:`, error);
-  //             })
-  //         );
-  //       } else {
-  //         console.error('Unsupported file type:', fileType);
-  //       }
-  //     } else {
-  //       console.error('Invalid file:', file);
-  //     }
-  //   }
-
-  //   if (uploadPromises.length > 0) {
-  //     Promise.all(uploadPromises)
-  //       .then(() => {
-  //         console.log('All files published successfully.');
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error publishing files:', error);
-  //       });
-  //   } else {
-  //     console.error('No valid files selected.');
-  //   }
-  // }
-
 
   publishToFacebook(formData: FormData, pageId: any, selectedFiles: File[]) {
     const publishURL = `https://graph.facebook.com/${pageId}/videos`;
@@ -341,6 +238,7 @@ export class MediaUploadComponent {
           uploadFormData.append('source', file);
           uploadFormData.append('description', this.bioText);
           uploadFormData.append('message', this.bioText); // Add the bio text
+          uploadFormData.append('user_tags', this.taggedUsername); // Add the bio text
 
           if (isImage) {
             uploadPromises.push(
@@ -382,6 +280,8 @@ export class MediaUploadComponent {
     const feedFormData = new FormData();
     feedFormData.append('access_token', formData.get('access_token') as string);
     feedFormData.append('message', this.bioText);
+    feedFormData.append('description', this.bioText);
+    feedFormData.append('user_tags', this.taggedUsername); // Add the bio text
 
     feedPromises.push(
       fetch(publishFeedURL, {
@@ -397,7 +297,7 @@ export class MediaUploadComponent {
         })
     );
 
-    Promise.all([...uploadPromises, ...feedPromises])
+    Promise.all([...uploadPromises, ...publishFeedURL])
       .then(() => {
         console.log('All files and feed post published successfully.');
       })
@@ -413,6 +313,8 @@ export class MediaUploadComponent {
       const formData = new FormData();
       formData.append('access_token', this.accessToken);
       formData.append('message', this.bioText);
+      formData.append('story_tags', this.taggedUsername);
+
       const selectedFiles = Array.isArray(this.selectedFile) ? this.selectedFile : [this.selectedFile];
 
       for (const file of selectedFiles) {
@@ -425,24 +327,8 @@ export class MediaUploadComponent {
     }
   }
 
-
-  // onPublishClick() {
-  //   if (this.selectedFile) {
-  //     const formData = new FormData();
-  //     formData.append('access_token', this.accessToken);
-  //     formData.append('source', this.selectedFile);
-  //     formData.append('message', this.bioText);
-
-  //     this.publishToFacebook(formData, this.pageId, this.selectedFile);
-  //   } else {
-  //     console.error('No file selected.');
-  //   }
-  // 
-
-  // }
   post() {
     setTimeout(() => {
-      // this.authorizeInstagram();
       localStorage.setItem('mydata', JSON.stringify(this.mydata));
       const dataList: textResponse[] = [];
       const generatedTextPromises = dataList.map((data: textResponse) => {
@@ -466,6 +352,138 @@ export class MediaUploadComponent {
       text: this.bioText,
       bio: this.mydata
     };
+  }
+
+  // instragram
+
+  creationId: any = 17990461106155950;
+
+  getFacebookPages(): Promise<FacebookPage[]> {
+    return new Promise((resolve) => {
+      FB.api('me/accounts', { access_token: this.facebookUserAccessToken }, (response: any) => {
+        resolve(response.data);
+      });
+    });
+  }
+
+  getInstagramAccountId(facebookPageId: string): Promise<string> {
+    return new Promise((resolve) => {
+      FB.api(
+        facebookPageId,
+        {
+          access_token: this.facebookUserAccessToken,
+          fields: 'instagram_business_account'
+        },
+        (response: any) => {
+          resolve(response.instagram_business_account.id);
+        }
+      );
+    });
+  }
+  async createMediaObjectContainer(instagramAccountId: string): Promise<string> {
+    return new Promise((resolve) => {
+      FB.api(
+        `${instagramAccountId}/media`,
+        'POST',
+        {
+          access_token: this.facebookUserAccessToken,
+          image_url: this.imageUrl,
+          caption: this.bioText,
+          creation_id: this.creationId,
+          user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+        },
+        (response: any) => {
+          console.log(response, ':::::::::::::::')
+          resolve(response.id);
+        }
+      );
+    });
+  }
+
+  async publishMediaObjectContainer(instagramAccountId: string): Promise<void> {
+    return new Promise((resolve) => {
+      FB.api(
+        `${instagramAccountId}/media_publish`,
+        'POST',
+        {
+          access_token: this.facebookUserAccessToken,
+          creation_id: this.creationId
+        },
+        (response: any) => {
+          resolve(response.id);
+        }
+      );
+    });
+  }
+
+  onSelectFile(event: any) {
+    const fileReader: FileReader = new FileReader();
+    const file = event.target.files[0];
+    this.selectedFile = file;
+
+    const pageAccessToken = this.facebookUserAccessToken
+
+    fileReader.onloadend = () => {
+      const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
+      this.uploadMedia(photoData);
+
+      const formData = new FormData();
+      formData.append('access_token', pageAccessToken);
+      formData.append('image_url', photoData);
+      formData.append('message', this.bioText);
+
+      const imageURL = URL.createObjectURL(file);
+      const imagePreview = document.createElement('img');
+      imagePreview.src = imageURL;
+      document.body.appendChild(imagePreview);
+      this.imagesData = this.selectedFile?.name
+
+      console.log(this.imagesData);
+    };
+
+    fileReader.readAsArrayBuffer(file);
+  }
+  async uploadMedia(photoData: Blob): Promise<void> {
+    try {
+      const facebookPages = await this.getFacebookPages();
+      if (facebookPages && facebookPages.length > 0) {
+        const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
+        const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
+        await this.publishMediaObjectContainer(instagramAccountId);
+
+        // Reset the form state
+        this.imageUrl = '';
+        this.bioText = '';
+      } else {
+        console.log('No Facebook pages found.');
+      }
+    } catch (error) {
+      console.error('An error occurred while uploading the media:', error);
+    }
+  }
+  async shareInstagramPost(): Promise<void> {
+    try {
+      this.isSharingPost = true;
+
+      const facebookPages = await this.getFacebookPages();
+
+      if (facebookPages && facebookPages.length > 0) {
+        const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
+        const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
+        await this.publishMediaObjectContainer(instagramAccountId);
+
+        this.isSharingPost = false;
+
+        // Reset the form state
+        this.imageUrl = '';
+        this.postCaption = '';
+      } else {
+        console.log('No Facebook pages found.');
+      }
+    } catch (error) {
+      console.error('An error occurred while sharing the Instagram post:', error);
+      this.isSharingPost = false;
+    }
   }
 }
 

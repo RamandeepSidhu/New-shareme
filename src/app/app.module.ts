@@ -10,11 +10,19 @@ import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { UrlInstagramComponent } from './url-instagram/url-instagram.component';
+import { PostManagementComponent } from './post-management/post-management.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
     StepByStepComponent,
-    MediaUploadComponent
+    MediaUploadComponent,
+    UrlInstagramComponent,
+    PostManagementComponent,
+    SidebarComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

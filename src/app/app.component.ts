@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   imageUrl: string = '';
   postCaption: string = '';
   isSharingPost: boolean = false;
-  facebookUserAccessToken: any = 'EAADjr33njLcBAAnoURmZCrg0RluTGLphqizPgScxpZCttnNRZCyovArQkkZB58IUKWe49JmPH9DZCESBl33TFojFCFgZB9PlvNeR397R3ZCQCKhbe5ZAXT5q1NDhfQU9OGp15cdAb5zmn4ZC4CDTbVyhdDu39VV9O2qJIdLj82FSyB1Kr29eBuc6ozMyoHW0pXOQM86JxUqyWdIGIy6T5HDMgG8ZBKxL1aVFOyDeWz1bwE2wBFAABYWJKh';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAFaUzlkggDSC6eYh8WYcBo72nI6yLz9ZA4om0UERgUUX3uK7x5hvmN5tsZAkuYFYDkfCWIWDoxO0ZBKkgJQubO5CbCHyAHXGXlhZALRTI75qZBwp5mg2PZC8qk4aJYcZCTb042QsSnuRnXNuZCLFAzTdxYMVaLdsN3IsVSjkDjxUa1D52Bk1ZBSTJLMFn80WRTpFK7YSoR2Kx0OInlu36o2mZBoHFZApN9DOfZAt7qjV3rxv';
   bioText: any
   facebookPages: FacebookPage[] = [];
   instagramAccountId: string | undefined;
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
   //     if (facebookPages && facebookPages.length > 0) {
   //       const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
   //       const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
-  //       await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
+  //       await this.publishMediaObjectContainer(instagramAccountId);
 
   //       this.isSharingPost = false;
 
@@ -207,67 +207,67 @@ export class AppComponent implements OnInit {
       console.error('Error initializing Facebook SDK:', error);
     });
   }
-  async shareInstagramPost(): Promise<void> {
-    try {
-      this.isSharingPost = true;
+  // async shareInstagramPost(): Promise<void> {
+  //   try {
+  //     this.isSharingPost = true;
 
-      const facebookPages = await this.getFacebookPages();
+  //     const facebookPages = await this.getFacebookPages();
 
-      if (facebookPages && facebookPages.length > 0) {
-        const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
-        const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
-        await this.publishMediaObjectContainer(instagramAccountId);
+  //     if (facebookPages && facebookPages.length > 0) {
+  //       const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
+  //       const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
+  //       await this.publishMediaObjectContainer(instagramAccountId);
 
-        this.isSharingPost = false;
+  //       this.isSharingPost = false;
 
-        // Reset the form state
-        this.imageUrl = '';
-        this.postCaption = this.bioText;
-      } else {
-        console.log('No Facebook pages found.');
-      }
-    } catch (error) {
-      console.error('An error occurred while sharing the Instagram post:', error);
-      this.isSharingPost = false;
-    }
-  }
+  //       // Reset the form state
+  //       this.imageUrl = '';
+  //       this.postCaption = this.bioText;
+  //     } else {
+  //       console.log('No Facebook pages found.');
+  //     }
+  //   } catch (error) {
+  //     console.error('An error occurred while sharing the Instagram post:', error);
+  //     this.isSharingPost = false;
+  //   }
+  // }
   creationId: any = 17990461106155950;
 
-  async createMediaObjectContainer(instagramAccountId: string): Promise<string> {
-    return new Promise((resolve) => {
-      FB.api(
-        `${instagramAccountId}/media`,
-        'POST',
-        {
-          access_token: this.facebookUserAccessToken,
-          image_url: this.imagesData,
-          caption: this.bioText,
-          creation_id: this.creationId,
-          user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
-        },
-        (response: any) => {
-          console.log(response, ':::::::::::::::')
-          resolve(response.id);
-        }
-      );
-    });
-  }
+  // async createMediaObjectContainer(instagramAccountId: string): Promise<string> {
+  //   return new Promise((resolve) => {
+  //     FB.api(
+  //       `${instagramAccountId}/media`,
+  //       'POST',
+  //       {
+  //         access_token: this.facebookUserAccessToken,
+  //         image_url: this.imageUrl,
+  //         caption: this.bioText,
+  //         creation_id: this.creationId,
+  //         user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+  //       },
+  //       (response: any) => {
+  //         console.log(response, ':::::::::::::::')
+  //         resolve(response.id);
+  //       }
+  //     );
+  //   });
+  // }
 
-  async publishMediaObjectContainer(instagramAccountId: string): Promise<void> {
-    return new Promise((resolve) => {
-      FB.api(
-        `${instagramAccountId}/media_publish`,
-        'POST',
-        {
-          access_token: this.facebookUserAccessToken,
-          creation_id: this.creationId
-        },
-        (response: any) => {
-          resolve(response.id);
-        }
-      );
-    });
-  }
+  // async publishMediaObjectContainer(instagramAccountId: string): Promise<void> {
+  //   return new Promise((resolve) => {
+  //     FB.api(
+  //       `${instagramAccountId}/media_publish`,
+  //       'POST',
+  //       {
+  //         access_token: this.facebookUserAccessToken,
+  //         creation_id: this.creationId
+  //       },
+  //       (response: any) => {
+  //         resolve(response.id);
+  //       }
+  //     );
+  //   });
+  // }
 
   onSelectFile(event: any) {
     const fileReader: FileReader = new FileReader();
@@ -302,7 +302,7 @@ export class AppComponent implements OnInit {
       if (facebookPages && facebookPages.length > 0) {
         const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
         const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
-        await this.publishMediaObjectContainer(instagramAccountId);
+        // await this.publishMediaObjectContainer(instagramAccountId);
 
         // Reset the form state
         this.imageUrl = '';
@@ -437,21 +437,60 @@ export class AppComponent implements OnInit {
     console.log(dataStore, ':::::::::')
   }
 
+  // ////
+  publishMediaObjectContainer(instagramAccountId: string, mediaObjectContainerId: string): Promise<string> {
+    return new Promise((resolve) => {
+      FB.api(
+        `${instagramAccountId}/media_publish`,
+        'POST',
+        {
+          access_token: this.facebookUserAccessToken,
+          creation_id: mediaObjectContainerId
+        },
+        (response: any) => {
+          resolve(response.id);
+        }
+      );
+    });
+  }
+  createMediaObjectContainer(instagramAccountId: string): Promise<string> {
+    return new Promise((resolve) => {
+      FB.api(
+        `${instagramAccountId}/media`,
+        'POST',
+        {
+          access_token: this.facebookUserAccessToken,
+          image_url: this.imageUrl,
+          caption: this.postCaption
+        },
+        (response: any) => {
+          resolve(response.id);
+        }
+      );
+    });
+  }
+  async shareInstagramPost(): Promise<void> {
+    try {
+      this.isSharingPost = true;
 
-  // async createMediaObjectContainer(instagramAccountId: string, formData: FormData): Promise<string> {
-  //   return new Promise((resolve) => {
-  //     FB.api(
-  //       `${instagramAccountId}/media`,
-  //       'POST',
-  //       {
-  //         access_token: this.facebookUserAccessToken,
-  //         image_url: this.imageUrl,
-  //         caption: this.bioText
-  //       },
-  //       (response: any) => {
-  //         resolve(response.id);
-  //       }
-  //     );
-  //   });
-  // }
+      const facebookPages = await this.getFacebookPages();
+
+      if (facebookPages && facebookPages.length > 0) {
+        const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
+        const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
+        await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
+
+        this.isSharingPost = false;
+
+        // Reset the form state
+        this.imageUrl = '';
+        this.postCaption = '';
+      } else {
+        console.log('No Facebook pages found.');
+      }
+    } catch (error) {
+      console.error('An error occurred while sharing the Instagram post:', error);
+      this.isSharingPost = false;
+    }
+  }
 }

@@ -12,7 +12,8 @@
                         <div class="dropdown-content" *ngIf="isHashtagDropdownOpen">
                             <input type="text" [(ngModel)]="searchTerm" (input)="filterHashtags()"
                                 placeholder="Search Hashtags" />
-                            <button (click)="hastageText([newTextList[0]],searchTerm)">Search AI</button>
+                            <button class="btn action-btn" (click)="hastageText([newTextList[0]],searchTerm)">Search
+                                AI</button>
                             <div *ngFor="let hashtag of newTextList">
                                 <span (click)="addHashtagToBio(hashtag.response)"> {{ hastageCardText.response }} - {{
                                     truncateText(hashtag.response, 4) }} </span>
@@ -97,11 +98,17 @@
                 <label for="fileInput" class="isBold colorGray" id="dragDropLabel">Click or Drag &amp; Drop
                     media</label>
                 <input type="file" id="fileInput" accept="image/*,video/*" (change)="onSelectFile($event)" multiple />
+                <input type="file" id="fileInput" accept="image/*,video/*" (change)="onSelectFacebook($event)"
+                    multiple />
+                <!-- <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." /> -->
                 <div id="imagePreviewContainer"></div>
             </div>
             <mat-card-actions *ngIf="mydata">
-                <button mat-button color="primary" (click)="post()">Publish</button>
-                <button (click)="onPublishClick()">Login with Facebook</button>
+                <!-- <button mat-button color="primary" (click)="post()">Publish</button> -->
+                <input type="text" [(ngModel)]="taggedUsername" placeholder="Enter tagged username">
+                <button (click)="shareInstagramPost()" class="btn action-btn" [disabled]="isSharingPost || !imageUrl">
+                    {{ isSharingPost ? 'Sharing...' : 'Instragram Share' }} </button>
+                <button class="btn action-btn" (click)="onPublishClick()">Facebook Page Share</button>
             </mat-card-actions>
         </mat-card>
     </div>

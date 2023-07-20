@@ -1,0 +1,17 @@
+<main id="app-main">
+    <section class="app-section">
+        <h3>1. Log in with Facebook</h3>
+        <button *ngIf="!facebookUserAccessToken" (click)="logInToFB()" class="btn action-btn"> Login with Facebook
+        </button>
+        <button *ngIf="facebookUserAccessToken" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook
+        </button>
+    </section>
+</main>
+<section *ngIf="facebookUserAccessToken" class="app-section">
+    <h3>2. Send a post to Instagram</h3>
+    <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." />
+    <textarea [(ngModel)]="bioText" placeholder="Write a caption..." rows="10"></textarea>
+    <input type="text" [(ngModel)]="taggedUsername" placeholder="Enter tagged username">
+    <button (click)="shareInstagramPost()" class="btn action-btn" [disabled]="isSharingPost || !imageUrl"> {{
+        isSharingPost ? 'Sharing...' : 'Share' }} </button>
+</section>
