@@ -1,62 +1,326 @@
-.example-card {
-  max-width: 1000px;
-  width: 100%;
-  margin: 60px auto 0;
-  padding: 30px;
-  .post-create {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-  }
-  .img-video-div {
-    margin-right: 10px;
-    img,
-    video {
-      max-width: 400px;
-      width: 100%;
-      height: 350px;
-      object-fit: cover;
+/* Variables */
+$primaryColor: #655765;
+$secondaryColor: #d0e1d0;
+
+/* Main layout */
+main {
+  margin-top: 58px;
+
+  .container {
+    padding-top: 1rem;
+
+    .flex-container {
+      display: flex;
       flex-wrap: wrap;
     }
+
+    .flex-child {
+      flex: 1;
+      padding: 20px;
+      border: 2px solid $primaryColor;
+      position: relative;
+
+      &:first-child {
+        margin-right: 20px;
+      }
+
+      &.green {
+        background-color: $secondaryColor;
+        color: black;
+      }
+
+      .instagram-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .facebook-post-preview {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+      }
+    }
+
+    .preview-instragram {
+      img {
+        height: 170px;
+      }
+
+      .instagram-post-preview {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 10px;
+        width: 300px;
+        max-width: 100%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        .post-image {
+          width: 100%;
+          height: 200px;
+          border-radius: 4px;
+          object-fit: cover;
+        }
+
+        .caption {
+          margin-top: 10px;
+          font-size: 14px;
+          line-height: 1.4;
+          color: black;
+        }
+
+        .hashtags {
+          margin-top: 10px;
+          font-size: 12px;
+          color: #3897f0;
+          cursor: pointer;
+          display: flex;
+          flex-wrap: wrap;
+
+          span {
+            margin-right: 5px;
+          }
+        }
+
+        .user-tags {
+          margin-top: 10px;
+          font-size: 12px;
+          color: #3897f0;
+          cursor: pointer;
+
+          span {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+    .post-create {
+      .app-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h3 {
+          color: $primaryColor;
+          margin-bottom: 1rem;
+        }
+
+        input,
+        textarea {
+          width: 100%;
+          margin-bottom: 1rem;
+          padding: 10px;
+          border: 1px solid $primaryColor;
+          border-radius: 5px;
+          font-size: 16px;
+          resize: vertical;
+
+          &:focus {
+            outline: none;
+            box-shadow: 0 0 5px $primaryColor;
+          }
+        }
+
+        .dropdown {
+          position: relative;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          display: inline !important;
+
+          .button {
+            background-color: $primaryColor;
+            color: white;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 1rem;
+
+            &:hover {
+              background-color: darken($primaryColor, 10%);
+            }
+          }
+
+          .dropdown-content {
+            position: static;
+            width: 100%;
+            background-color: #f9f9f9;
+            border: 1px solid $primaryColor;
+            border-radius: 5px;
+            padding: 10px;
+            z-index: 1;
+            display: none;
+
+            &.open {
+              display: block;
+            }
+
+            input {
+              width: 100%;
+              margin-bottom: 1rem;
+              padding: 10px;
+              border: 1px solid $primaryColor;
+              border-radius: 5px;
+              font-size: 16px;
+
+              &:focus {
+                outline: none;
+                box-shadow: 0 0 5px $primaryColor;
+              }
+            }
+
+            .btn {
+              background-color: $primaryColor;
+              color: white;
+              cursor: pointer;
+              padding: 10px;
+              border: none;
+              border-radius: 5px;
+              font-size: 16px;
+
+              &:hover {
+                background-color: darken($primaryColor, 10%);
+              }
+            }
+
+            div {
+              margin-bottom: 5px;
+              cursor: pointer;
+              &:hover {
+                color: $primaryColor;
+              }
+            }
+          }
+        }
+
+        button {
+          background-color: $primaryColor;
+          color: white;
+          cursor: pointer;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+
+          &:hover {
+            background-color: darken($primaryColor, 10%);
+          }
+
+          &:disabled {
+            background-color: lighten($primaryColor, 20%);
+            cursor: not-allowed;
+          }
+        }
+      }
+      .hashtag-search {
+        display: flex;
+        width: 100%;
+        margin-bottom: 1.2em;
+
+        .input-hastage {
+          flex: 1;
+          input {
+            margin-bottom: 0;
+          }
+        }
+
+        /* Add the following styles to set the height of the input and button */
+        .hashtag-search input,
+        .hashtag-search button {
+          height: 40px; /* Adjust the height to your desired value */
+        }
+        .hashtage-button {
+          margin-left: 10px;
+        }
+      }
+    }
   }
-  label#dragDropLabel {
-    font-size: 16px;
-    font-weight: 500;
-    position: relative;
-    top: 10px;
-  }
-  .select-file {
-    background-color: hsla(0, 0%, 88%, 1);
-    color: hsl(236deg 10.43% 48.49%);
-    height: 42px;
-    border-radius: 43px;
-    margin-top: 12px;
-  }
-  textarea.textbox.ng-untouched.ng-pristine.ng-valid {
-    width: 96%;
-  }
-  .text-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+}
+
+.instagram-profile {
+  display: flex;
+  align-items: center;
+
+  .profile-picture {
+    width: 63px;
+    height: 54px !important;
+    border-radius: 50%;
+    margin-right: 10px;
   }
 
-  .textbox {
-    width: 96%;
-    height: 200px;
-    resize: none;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 15px;
+  .profile-name {
+    font-weight: bold;
   }
+}
 
-  .button-container {
-    display: flex;
-    gap: 10px;
+input#fileInput {
+  display: none;
+}
+
+.post-create {
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.img-video-div {
+  margin-right: 10px;
+  img,
+  video {
+    max-width: 400px;
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    flex-wrap: wrap;
   }
+}
+
+label#dragDropLabel {
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  top: 10px;
+}
+
+.select-file {
+  background-color: hsl(0, 0%, 88%);
+  color: hsl(236, 10.43%, 48.49%);
+  height: 42px;
+  border-radius: 43px;
+  margin-top: 12px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+textarea.textbox.ng-untouched.ng-pristine.ng-valid {
+  width: 96%;
+}
+
+.text-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.textbox {
+  width: 96%;
+  height: 200px;
+  resize: none;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
 
   .button {
     padding: 8px 16px;
@@ -65,180 +329,9 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+
+    &:hover {
+      background-color: #45a049;
+    }
   }
-
-  .button:hover {
-    background-color: #45a049;
-  }
-
-  .character-count {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #999;
-  }
-  span.material-icons {
-    float: revert;
-    float: right;
-    margin-bottom: 16px;
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    z-index: 1;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 12px;
-  }
-
-  .dropdown-content input {
-    // width: 100%;
-    margin-bottom: 8px;
-  }
-
-  .dropdown-content div {
-    cursor: pointer;
-    padding: 6px 0;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  textarea.textbox.ng-valid.ng-dirty.ng-touched {
-    width: 96%;
-  }
-  span.material-icons {
-    font-size: 19px;
-    height: 0px;
-    position: relative;
-    right: 10px;
-    top: -28px;
-    cursor: pointer;
-  }
-}
-input#fileInput {
-  display: none;
-}
-.push-right {
-  margin-left: 90%;
-}
-
-.person {
-  font-style: italic;
-  font-weight: bold;
-  color: purple;
-}
-
-.bot {
-  font-weight: bold;
-  color: darkgreen;
-}
-
-.frame-box {
-  border: dotted 2px orange;
-  max-height: auto;
-  width: 100%;
-  display: block;
-  position: relative;
-  overflow-y: scroll;
-  margin-top: 12px;
-
-  @media (min-width: 425px) and (max-width: 844px) {
-    left: 48px;
-    position: relative;
-  }
-}
-
-.padding {
-  padding: 5px;
-}
-
-.custom-button {
-  position: absolute;
-  padding: 1px;
-  border-radius: 0.375rem;
-  color: #718096;
-  bottom: -1.5rem;
-  right: 1rem;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.custom-button:hover {
-  background-color: #f7fafc;
-  color: #cbd5e0;
-}
-
-.custom-button:disabled {
-  opacity: 0.4;
-}
-
-.custom-button svg {
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2;
-  height: 1em;
-  width: 1em;
-  margin-right: 0.25rem;
-}
-.textWriteArea {
-  height: 41px;
-  width: 99% !important;
-  nav-index: 0;
-  position: relative;
-  grid-row: 1;
-  padding: 0.25rem;
-  max-height: 200px;
-  overflow-y: hidden;
-  font-size: 16px;
-  color: #333;
-  border-radius: 8px;
-  @media (min-width: 425px) and (max-width: 1024px) {
-    left: 48px;
-    position: relative;
-  }
-}
-.generate-response {
-  position: relative;
-  justify-content: normal;
-  float: right;
-  border: 0;
-  outline: none;
-  bottom: 35px;
-  background: transparent;
-  @media (min-width: 425px) and (max-width: 1024px) {
-    left: 48px;
-    position: relative;
-  }
-}
-button.copy-button {
-  border: 0;
-  background: transparent;
-  padding-top: 3px;
-  color: #fff;
-}
-
-.share-btn > a {
-  border: 1px solid #ccc;
-  padding: 5px;
-  font-size: 12px;
-  font-family: Verdana, Arial;
-}
-.share-btn > a:hover {
-  cursor: pointer;
-}
-mat-card-title.mat-mdc-card-title {
-  color: black;
-}
-button.btn.action-btn {
-  margin-left: 22px;
-}
-span {
-  color: black;
 }

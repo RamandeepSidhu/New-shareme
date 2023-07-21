@@ -32,7 +32,7 @@ export class PostManagementComponent {
   creationId: any = 17990461106155950;
   pageId: string = '110499812113968';
   accessToken = 'EAADjr33njLcBABvIXnITjmpd1wgUYrkmgq9XIq6zSZBqpfnoDlAJbNLal83fZBUYRbiStAi7cHOkBRlwprVaEqVuFHO4DcWv7KvvZCZCXoJ2SsvuvhRxoGolyfnln4hg0uur6opRo5SSEZBQV9SAutBtZBGHra9T58BNXE8peFtIS7vEgx65tnjrGUQ1cHA4LHc0ihIJYTMFuJWxUugOGK';
-  facebookUserAccessToken: any = 'EAADjr33njLcBAFaUzlkggDSC6eYh8WYcBo72nI6yLz9ZA4om0UERgUUX3uK7x5hvmN5tsZAkuYFYDkfCWIWDoxO0ZBKkgJQubO5CbCHyAHXGXlhZALRTI75qZBwp5mg2PZC8qk4aJYcZCTb042QsSnuRnXNuZCLFAzTdxYMVaLdsN3IsVSjkDjxUa1D52Bk1ZBSTJLMFn80WRTpFK7YSoR2Kx0OInlu36o2mZBoHFZApN9DOfZAt7qjV3rxv';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAOMcMaz2nGZBvbItWXyZBaDLmBN2ZCj89hzPzcP75mRZCtiAKvjuq7fuxZAP8rVVXTeOp3ow5azqgQdP3AK58UU1mwOn88oZCY9P4t1fBISNUEbmuaplQvipHsZC0Rln7o5D5UCKuEiZBRLtmfclSZAyrfE7sQZC6jpeBSOIFmskowYaUANuggWhUvnIiTJjR8twti8oYGsawjiSdHv4m7HFzgF8wudZAK5mZAaDHYkla3B6';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
@@ -148,7 +148,7 @@ export class PostManagementComponent {
         {
           access_token: this.facebookUserAccessToken,
           image_url: this.imageUrl,
-          caption: captionWithText, // Use the variable directly here
+          caption: captionWithText,
           user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
         },
         (response: any) => {
@@ -354,8 +354,6 @@ export class PostManagementComponent {
         this.newTextList.unshift({ sno: 0, text: data.text, response: text });
         this.hastageCardText = this.newTextList.find(f => f.response);
         this.hashtageStorge = this.hastageCardText.response
-
-        console.log(this.hastageCardText.response, 'hastage')
         this.writeText = this.newTextList.find(f => f.text);
         this.filterHashtags();
         return { text, response: text };
