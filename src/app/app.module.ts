@@ -14,6 +14,8 @@ import { UrlInstagramComponent } from './url-instagram/url-instagram.component';
 import { PostManagementComponent } from './post-management/post-management.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
+import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import { FacebookAuthService } from './Services/auth.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,8 +37,27 @@ import { HeaderComponent } from './header/header.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    SocialLoginModule
+
   ],
-  providers: [],
+  providers: [
+    FacebookAuthService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('250342871108791')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

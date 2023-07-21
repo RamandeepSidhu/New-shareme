@@ -20,7 +20,6 @@ declare const FB: any;
 export class StepByStepComponent {
   @Input() facebookUserAccessToken: string = '';
   constructor(private http: HttpClient) {
-    // Initialize any required data or variables here
   }
   shouldShowAllSteps: boolean = false;
   facebookPages: any[] = [];
