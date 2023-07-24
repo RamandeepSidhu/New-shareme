@@ -1,19 +1,46 @@
 <!-- <app-header></app-header> -->
-<main style="margin-top: 58px;">
-  <div class="faceBook-button">
-    <!-- <button *ngIf="!loggedIn" (click)="logInToFB()" class="btn action-btn"> Login with Facebook </button> -->
-    <!-- <button *ngIf="loggedIn" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook </button> -->
-    <div *ngIf="loggedIn">
-      <img src="{{ user.response.picture.data.url }}">
-      <div>
-        <h4>{{ user.name }}</h4>
-        <p>{{ user.email }}</p>
-      </div>
-    </div>
-  </div>
-</main>
 <app-sidebar></app-sidebar>
 <!-- <app-post-management></app-post-management> -->
 <!-- <app-url-instagram></app-url-instagram> -->
+<!-- <main id="app-main">
+  <section class="app-section">
+    <h3>1. Log in with Facebook</h3>
+    <button *ngIf="!facebookUserAccessToken" (click)="logInToFB()" class="btn action-btn"> Login with Facebook </button>
+    <button *ngIf="facebookUserAccessToken" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook </button>
+  </section>
+  <section *ngIf="facebookUserAccessToken" class="app-section">
+    <h3>2. Send a post to Instagram</h3>
+    <input type="file" (change)="onSelectFile($event)" accept="image/jpeg" />
+    <textarea [(ngModel)]="bioText" placeholder="Write a caption..." rows="10"></textarea>
+    <button (click)="shareInstagramPost()" class="btn action-btn" [disabled]="isSharingPost || !selectedFile"> {{
+      isSharingPost ? 'Sharing...' : 'Share' }} </button>
+  </section>
+  <app-step-by-step [facebookUserAccessToken]="facebookUserAccessToken"></app-step-by-step>
+</main> -->
+<!-- *******************************************************************************************************************
+    <main id="app-main">
+  <section class="app-section">
+    <h3>1. Log in with Facebook</h3>
+    <button *ngIf="!facebookUserAccessToken" (click)="logInToFB()" class="btn action-btn"> Login with Facebook </button>
+    <button *ngIf="facebookUserAccessToken" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook </button>
+  </section>
+  <section *ngIf="facebookUserAccessToken" class="app-section">
+    <h3>2. Send a post to Instagram</h3>
+    <input type="file" (change)="onSelectFile($event)" accept=".jpg,.jpeg" />
+    <textarea class="textbox" placeholder="Write a caption..." #myInput [(ngModel)]="bioText" rows="10"
+      [maxlength]="remainingWords"></textarea>
+    <div class="dropdown-content">
+      <input type="text" [(ngModel)]="searchTerm" (input)="filterHashtags()" placeholder="Search Hashtags" />
+      <button class="btn action-btn" (click)="hastageText([newTextList[0]],searchTerm)">Search AI</button>
+      <div *ngFor="let hashtag of newTextList">
+        <span (click)="addHashtagToBio(hashtag.response)"> {{ hastageCardText?.response }} {{
+          truncateText(hashtag.response, 4) }} </span>
+      </div>
+    </div>
+    <input type="text" [(ngModel)]="taggedUsername" placeholder="Enter tagged username">
+    <button (click)="shareInstagramPost()" class="btn action-btn" [disabled]="isSharingPost || !selectedFile"> {{
+      isSharingPost ? 'Sharing...' : 'Share' }} </button>
+  </section>
+</main> -->
 <!-- <app-step-by-step [facebookUserAccessToken]="facebookUserAccessToken"></app-step-by-step> -->
 <router-outlet></router-outlet>
