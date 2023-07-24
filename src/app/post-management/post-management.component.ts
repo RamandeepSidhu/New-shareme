@@ -22,7 +22,7 @@ export class PostManagementComponent {
   isSharingPost: boolean = false;
   selectedFile: File | null = null;
   taggedUsername: any = [];
-  imageUrl: string = '';
+  imageUrl: any = [];
   filteredHashtags: any = [];
 
   isCopied: boolean = false;
@@ -33,7 +33,7 @@ export class PostManagementComponent {
   creationId: any = 17990461106155950;
   pageId: string = '110499812113968';
   accessToken = 'EAADjr33njLcBAId395mkyZBGwUzmK70a3ZCgZCUTnZB6IFv1OV1asjtptXbpO3HX4QZCayZBZBB0ldSKfjcOd7I44xWejxQroXpOb8vWZBYZB1dYTSPY9j8M07A5fZC8OleKTlVNkrxLPwKOs3uCL5tQTnaZBl0qjte2JZAlWweNCDrz4ojx0z8eNl2rZAxuaXsWgIqI3SQ4NGVHe5Dws6pxZAa1Q2TFgmHyamrfY5oShA43XeDTdowgNxGnzA';
-  facebookUserAccessToken: any = 'EAADjr33njLcBAGpOI6YFnWkXZCdSGFYMehOpsQPZBTZCU43u958heW9LwysXVWQo5bsUbVpttr1HpH36O9FIiJeQ2JUkSj8BEFZCpFLat4HysgOyyrbwqPJLvaO9NOw9UuppzdS4B30m3GqB9qN7g0AOh4p6xXy3QjuO1r80Dkdt3g5ydH2TfFUMcCHrmysQMxatHXDyvxJrcPANAJshgUvxRhPAInRZBVEJ1PeEZCZCtR1p2jivrPK';
+  facebookUserAccessToken: any = 'EAADjr33njLcBABpObBqUAjzn8rQqYpePGZCf0vFKZBusEH8eTf8fZCji1q1aMJ7XZAEnZAkIEIEfkvyQ9HiIi8VeLhzWpTbYrUUTFmRFarvm5SOsl2HDZCRJEYNv86JYmKK5Ev4Lqxb2WNHW5js2iwsmM2aG8HnUH1QB56P47ZARXpDHnr24xZAZCiUtTxiLVBEyKGHyteGJGqtufqE4tHbmK7TjSes0DB5tzKt0iEbIZCoMEBuhuH7bJ3';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
@@ -87,12 +87,10 @@ export class PostManagementComponent {
         const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
         const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
         await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
-        this.toaster.success('Post shared successfully!', 'Success');
-
         this.isSharingPost = false;
         this.toaster.success('Post shared successfully!', 'Success');
         // Reset the form state
-        this.imageUrl = '';
+        this.imageUrl = [];
         this.hashtageStorge = '';
       } else {
         console.log('No Facebook pages found.');
@@ -113,12 +111,12 @@ export class PostManagementComponent {
           creation_id: mediaObjectContainerId
         },
         (response: any) => {
+          console.log(response, ':::::::::::::::', response)
           resolve(response.id);
         }
       );
     });
   }
-
 
   createMediaObjectContainer(instagramAccountId: string): Promise<string> {
     return new Promise((resolve) => {
@@ -131,12 +129,10 @@ export class PostManagementComponent {
           access_token: this.facebookUserAccessToken,
           image_url: this.imageUrl,
           caption: captionWithText,
-          // user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
-          user_tags: JSON.stringify(
-            this.taggedUsername.map((username: any) => ({ username, x: 0.5, y: 0.5 }))
-          )
+          user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
         },
         (response: any) => {
+          console.log(response, '::::response:::::::::::')
           resolve(response.id);
         }
       );
@@ -150,6 +146,7 @@ export class PostManagementComponent {
   getFacebookPages(): Promise<FacebookPage[]> {
     return new Promise((resolve) => {
       FB.api('me/accounts', { access_token: this.facebookUserAccessToken }, (response: any) => {
+        console.log(response, '::::::::::')
         resolve(response.data);
       });
     });
@@ -238,7 +235,6 @@ export class PostManagementComponent {
   copyResponse(response: string) {
     navigator.clipboard.writeText(response)
       .then(() => {
-        console.log('Response copied!');
       })
       .catch((error) => {
         console.error('Failed to copy response:', error);
@@ -270,8 +266,6 @@ export class PostManagementComponent {
       .then((response) => {
         this.instagramUsername = response.username;
         this.profilePictureUrl = response.profile_picture_url;
-        console.log('Instagram Username:', this.instagramUsername);
-        console.log('Profile Picture URL:', this.profilePictureUrl);
       })
       .catch((error) => {
         console.error('Error fetching Instagram profile data:', error);
@@ -281,18 +275,31 @@ export class PostManagementComponent {
     this.getInstagramProfileData();
   }
   onSelect(event: any) {
-    const fileReader: FileReader = new FileReader();
-    const file = event.target.files[0];
-    this.selectedFile = file;
-    fileReader.onloadend = () => {
-      const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
-      const formData = new FormData();
-      formData.append('access_token', this.facebookUserAccessToken);
-      formData.append('source', photoData);
-      this.imageUrl = URL.createObjectURL(file);
-      document.body.appendChild(this.imagePreview);
-    };
+    const files: FileList = event.target.files;
+    const filePromises: Promise<ArrayBuffer>[] = [];
 
-    fileReader.readAsArrayBuffer(file);
+    for (let i = 0; i < files.length; i++) {
+      const fileReader: FileReader = new FileReader();
+      const file = files[i];
+
+      const filePromise = new Promise<ArrayBuffer>((resolve, reject) => {
+        fileReader.onload = () => {
+          resolve(fileReader.result as ArrayBuffer);
+        };
+        fileReader.onerror = () => {
+          reject('Error reading file.');
+        };
+        fileReader.readAsArrayBuffer(file);
+      });
+
+      filePromises.push(filePromise);
+
+    }
+
+    Promise.all(filePromises).then((results) => {
+      this.imageUrl = results.map((arrayBuffer) => URL.createObjectURL(new Blob([arrayBuffer], { type: 'image/jpg' })));
+
+    });
   }
+
 }

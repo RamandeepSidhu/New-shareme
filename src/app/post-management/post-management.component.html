@@ -48,10 +48,11 @@
                     </div>
                 </div>
                 <div class="instagram-preview">
-                    <img *ngIf="imageUrl; else dummyImage" [src]="imageUrl" alt="Instagram Post Preview" />
-                    <ng-template #dummyImage>
-                        <!-- <img *ngIf="!imageUrl" src="../../assets/defult-users.png" alt="Dummy Image" /> -->
-                    </ng-template>
+                    <div class="instagram-preview-inner">
+                        <div *ngFor="let image of imageUrl" class="instagram-image-box">
+                            <img src="{{ image }}" width="100%">
+                        </div>
+                    </div>
                     <div class="caption">
                         <div class="post-text"> {{ cardText.response }}</div>
                         <!-- <div class="hashtags"> {{captionWithText}} </div> -->
