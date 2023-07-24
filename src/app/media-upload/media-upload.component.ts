@@ -39,8 +39,7 @@ export class MediaUploadComponent {
   isAIAssistOpen: boolean = false;
   formData: FormData = new FormData();
   pageId: string = '110499812113968';
-  accessToken = 'EAADjr33njLcBAMMriw5vZBvuc0iqOkFpJuOZCfHaZBfGyZCJWWTGcRJ7yyyZAcTZCxkXYhzkYIuVujMaqZADC7GvBMkS1mIZAz6JWscZCI2uF0zUBl3xOVI559HScuRLpqEVaAJ9R6XccHVsZBbihTDKZCp1wZCanGZAWE80W3nqg49qmJRjBGr3lFX3vkwWbZCL7l11F8ZAxr8e8e0KSXY2IvvZCcz2xZBwUy52fTLpbRKoi6ONKU7gKdiVpbO1E';
-  // accessToken: any = localStorage.getItem('facebookAccessToken');
+  accessToken = 'EAADjr33njLcBAJZCudPg2ifhFuj6LA9Wd5VDjAaZCbIklZCazTi6qbIvto4pxkaNZB9ZCYy7ZCxTONNjHzIComD2C5td8dGqpNDM3DadJDBUyu56DKnlaOP8tZAgxBk5nlY0bYujEe5DzSW9BzM5vZBdrH6nQlZACsKUtPc2Ogqxp69EFYfJ8ejLxoflRSijW7tRylAu6cA1XXZA3AY46CC7bCj5v7RMMRKNRYUEcJWrJlnThEZBtCNZA8Ky';
 
   hashtags = [
     { id: "spread", value: "#spread", color: 3, twitter: "8", instagram: null },

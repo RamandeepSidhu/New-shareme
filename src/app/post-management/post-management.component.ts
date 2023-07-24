@@ -31,9 +31,9 @@ export class PostManagementComponent {
   hastageCardText: any;
   imagesData: string | undefined;
   creationId: any = 17990461106155950;
-  // facebookUserAccessToken = localStorage.getItem('facebookAccessToken');
-
-  facebookUserAccessToken: any = 'EAADjr33njLcBAIHAaLMKdKKepxkaWENm6Xh1obig1t2SZBOFEqbYLiOpQbZAB7as6O00aVVi3TlZBpNPn94Bm350LOnZAbM5Jd09P9Iu8bdfB3LdykzxPOn12R9jpiLasydL1HZCZCdXpaJ1uWqUTsd1Ool7NfstqA5GJS9pD5sWAZA0Mxob5o0GFV3GkxFdQ8aZBAi9aGJamnLY81SQPJEn';
+  pageId: string = '110499812113968';
+  accessToken = 'EAADjr33njLcBAId395mkyZBGwUzmK70a3ZCgZCUTnZB6IFv1OV1asjtptXbpO3HX4QZCayZBZBB0ldSKfjcOd7I44xWejxQroXpOb8vWZBYZB1dYTSPY9j8M07A5fZC8OleKTlVNkrxLPwKOs3uCL5tQTnaZBl0qjte2JZAlWweNCDrz4ojx0z8eNl2rZAxuaXsWgIqI3SQ4NGVHe5Dws6pxZAa1Q2TFgmHyamrfY5oShA43XeDTdowgNxGnzA';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAMtxP6CiFFa7O1DEEmLN2quqzcr7ibr7ZASquwsKbGZA6olO8KgoZCfXtXfBa2pKricN6ZCoVryIZC9e1hV9PuqVLZBF1h5o3yqXmA8JVTkLQA66707MzXWp6diXZCN8h9Jle9cBCxnrPF4a8ZCgpomZAtoLAb1CJg9uCyzyctg9bR1ckQZBU4U4ZBdx1nRyP56lwZBkZCA6TQyiX5RFbeisKZABLh1n0wxZBJhJ5LIpBOD1R14';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
