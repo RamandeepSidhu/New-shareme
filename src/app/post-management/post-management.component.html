@@ -5,7 +5,14 @@
                 <div class="post-create">
                     <section *ngIf="facebookUserAccessToken" class="app-section">
                         <h3>Send a post to Instagram</h3>
-                        <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." />
+                        <!-- <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." /> -->
+                        <div class="select-file">
+                            <label for="fileInput" class="isBold colorGray" id="dragDropLabel">Click or Drag &amp; Drop
+                                media</label>
+                            <input type="file" id="fileInput" accept="image/*,video/*" (change)="onSelect($event)"
+                                multiple />
+                            <div id="imagePreviewContainer"></div>
+                        </div>
                         <textarea [(ngModel)]="cardText.response" placeholder=" Write a caption..."
                             rows="10"></textarea>
                         <div class="hashtag-search">
@@ -43,7 +50,7 @@
                 <div class="instagram-preview">
                     <img *ngIf="imageUrl; else dummyImage" [src]="imageUrl" alt="Instagram Post Preview" />
                     <ng-template #dummyImage>
-                        <img *ngIf="!imageUrl" src="../../assets/defult-users.png" alt="Dummy Image" />
+                        <!-- <img *ngIf="!imageUrl" src="../../assets/defult-users.png" alt="Dummy Image" /> -->
                     </ng-template>
                     <div class="caption">
                         <div class="post-text"> {{ cardText.response }}</div>

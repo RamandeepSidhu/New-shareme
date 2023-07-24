@@ -50,6 +50,7 @@ export class PostManagementComponent {
   instagramUsername: any;
   profilePictureUrl: any;
   instagramProfileId: any;
+  imagePreview: any;
   constructor(private openaiService: ChatGptService, private http: HttpClient,
     private toaster: ToastrService,
   ) { }
@@ -277,7 +278,21 @@ export class PostManagementComponent {
       });
   }
   ngOnInit(): void {
-
     this.getInstagramProfileData();
+  }
+  onSelect(event: any) {
+    const fileReader: FileReader = new FileReader();
+    const file = event.target.files[0];
+    this.selectedFile = file;
+    fileReader.onloadend = () => {
+      const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
+      const formData = new FormData();
+      formData.append('access_token', this.facebookUserAccessToken);
+      formData.append('source', photoData);
+      this.imageUrl = URL.createObjectURL(file);
+      document.body.appendChild(this.imagePreview);
+    };
+
+    fileReader.readAsArrayBuffer(file);
   }
 }
