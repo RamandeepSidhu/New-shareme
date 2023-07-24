@@ -18,7 +18,7 @@ declare const FB: any;
   styleUrls: ['./step-by-step.component.scss']
 })
 export class StepByStepComponent {
-  @Input() facebookUserAccessToken: string = '';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAAFsQgONeliDVjLQsJzg6BOzp4pZAOvIEBg0Fvmoa4wXmT8I43ijiMfsLr6hZBCAmOAwsxdLtY0Bag1fywV2m7oiNlGg428X6hJNn8RtoP16oaOotRysjTmJ9dfXFa3jsY1yQnzeQyzioeyJ0XYU14dDuxgb9ZC1P13QN3lBThlR2LOD897zsQh7UIY18Jod078S5Eo';
   constructor(private http: HttpClient) {
   }
   shouldShowAllSteps: boolean = false;
@@ -116,16 +116,7 @@ export class StepByStepComponent {
     this.shouldShowAllSteps = !this.shouldShowAllSteps;
   }
 
-  // completeStep(step: StepRow): void {
-  //   step.isDisabled = true;
-  //   step.requestQueryParams.access_token = this.facebookUserAccessToken;
 
-  //   FB.api(step.endpoint, step.method, step.requestQueryParams, (response: any) => {
-  //     this.onResponseReceived(response, this.stepRows.indexOf(step));
-  //     step.response = response; // Update response property
-  //     step.isDisabled = false;
-  //   });
-  // }
   async completeStep(step: StepRow): Promise<void> {
     if (step.isDisabled) return;
 

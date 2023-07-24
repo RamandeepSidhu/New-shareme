@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   imageUrl: string = '';
   postCaption: string = '';
   isSharingPost: boolean = false;
-  facebookUserAccessToken: any = 'EAADjr33njLcBABpObBqUAjzn8rQqYpePGZCf0vFKZBusEH8eTf8fZCji1q1aMJ7XZAEnZAkIEIEfkvyQ9HiIi8VeLhzWpTbYrUUTFmRFarvm5SOsl2HDZCRJEYNv86JYmKK5Ev4Lqxb2WNHW5js2iwsmM2aG8HnUH1QB56P47ZARXpDHnr24xZAZCiUtTxiLVBEyKGHyteGJGqtufqE4tHbmK7TjSes0DB5tzKt0iEbIZCoMEBuhuH7bJ3';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAAFsQgONeliDVjLQsJzg6BOzp4pZAOvIEBg0Fvmoa4wXmT8I43ijiMfsLr6hZBCAmOAwsxdLtY0Bag1fywV2m7oiNlGg428X6hJNn8RtoP16oaOotRysjTmJ9dfXFa3jsY1yQnzeQyzioeyJ0XYU14dDuxgb9ZC1P13QN3lBThlR2LOD897zsQh7UIY18Jod078S5Eo';
   bioText: any
   facebookPages: FacebookPage[] = [];
   instagramAccountId: string | undefined;
