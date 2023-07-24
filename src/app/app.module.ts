@@ -15,6 +15,17 @@ import { PostManagementComponent } from './post-management/post-management.compo
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+const firebaseConfig = {
+  apiKey: "AIzaSyCFrO-vpLOPEuK76GfyVTRXmb7nPBkDAiM",
+  authDomain: "sharemeall-c5665.firebaseapp.com",
+  projectId: "sharemeall-c5665",
+  storageBucket: "sharemeall-c5665.appspot.com",
+  messagingSenderId: "1034639914541",
+  appId: "1:1034639914541:web:cc84860e4be18ad6746aa4",
+  measurementId: "G-162W1C08J6"
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +48,8 @@ import { ToastrModule } from 'ngx-toastr';
     MatButtonModule,
     MatIconModule,
     ToastrModule.forRoot(), // ToastrModule added
-
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
 import { ToastrService } from 'ngx-toastr';
+
 declare const FB: any;
 export class textResponse {
   sno: number = 1;
@@ -22,7 +23,7 @@ export class PostManagementComponent {
   isSharingPost: boolean = false;
   selectedFile: File | null = null;
   taggedUsername: any = [];
-  imageUrl: any = [];
+  imageUrl: any = '';
   filteredHashtags: any = [];
 
   isCopied: boolean = false;
@@ -33,7 +34,7 @@ export class PostManagementComponent {
   creationId: any = 17990461106155950;
   pageId: string = '110499812113968';
   accessToken = 'EAADjr33njLcBAId395mkyZBGwUzmK70a3ZCgZCUTnZB6IFv1OV1asjtptXbpO3HX4QZCayZBZBB0ldSKfjcOd7I44xWejxQroXpOb8vWZBYZB1dYTSPY9j8M07A5fZC8OleKTlVNkrxLPwKOs3uCL5tQTnaZBl0qjte2JZAlWweNCDrz4ojx0z8eNl2rZAxuaXsWgIqI3SQ4NGVHe5Dws6pxZAa1Q2TFgmHyamrfY5oShA43XeDTdowgNxGnzA';
-  facebookUserAccessToken: any = 'EAADjr33njLcBABpObBqUAjzn8rQqYpePGZCf0vFKZBusEH8eTf8fZCji1q1aMJ7XZAEnZAkIEIEfkvyQ9HiIi8VeLhzWpTbYrUUTFmRFarvm5SOsl2HDZCRJEYNv86JYmKK5Ev4Lqxb2WNHW5js2iwsmM2aG8HnUH1QB56P47ZARXpDHnr24xZAZCiUtTxiLVBEyKGHyteGJGqtufqE4tHbmK7TjSes0DB5tzKt0iEbIZCoMEBuhuH7bJ3';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAOAQEKrujBR4HumVg7370vY9TslW8Qysi2ZB64rXxBJvEBk3MtK9LVr4o2c8OWSGknMk40UClx1xNWK04CimyMO8uhZCZAYFtKVfIF7bybVGQCEAaPhCirt0Y3D1g2bLIt2AFT8MhVQoHpjrm5XUE8YK05R1IVitBt3MNYZCll52kpPJIWhKg5DFA5T0iK0rrDlSsXUxuLBrhDZBTmGMZAwPVy4Ofk9Oex4SU5Cfmw';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
@@ -51,8 +52,10 @@ export class PostManagementComponent {
   profilePictureUrl: any;
   instagramProfileId: any;
   imagePreview: any;
+  imageUrlInput: string = '';
+  imageUrlList: any[] = [];
   constructor(private openaiService: ChatGptService, private http: HttpClient,
-    private toaster: ToastrService,
+    private toaster: ToastrService
   ) { }
   addHashtagToBio(hashtag: string) {
     this.cardText.response += `${hashtag} `;
@@ -90,7 +93,7 @@ export class PostManagementComponent {
         this.isSharingPost = false;
         this.toaster.success('Post shared successfully!', 'Success');
         // Reset the form state
-        this.imageUrl = [];
+        this.imageUrl = '';
         this.hashtageStorge = '';
       } else {
         console.log('No Facebook pages found.');
@@ -127,7 +130,7 @@ export class PostManagementComponent {
         'POST',
         {
           access_token: this.facebookUserAccessToken,
-          image_url: this.imageUrl,
+          image_url: this.imageUrlList,
           caption: captionWithText,
           user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
         },
@@ -297,9 +300,23 @@ export class PostManagementComponent {
     }
 
     Promise.all(filePromises).then((results) => {
-      this.imageUrl = results.map((arrayBuffer) => URL.createObjectURL(new Blob([arrayBuffer], { type: 'image/jpg' })));
-
+      for (const arrayBuffer of results) {
+        this.imageUrl.push(URL.createObjectURL(new Blob([arrayBuffer], { type: 'image/jpg' })));
+      }
     });
+
+
+  }
+  addImageUrl() {
+    console.log(this.imageUrl, 'this.imageUrlInput')
+    this.imageUrlList.push(this.imageUrl);
+    this.imageUrl = '';
   }
 
+  removeImage(i: number) {
+    const index = this.imageUrlList.indexOf(i);
+    if (index !== -1) {
+      this.imageUrlList.splice(index, 1);
+    }
+  }
 }

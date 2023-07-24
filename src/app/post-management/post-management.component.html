@@ -5,13 +5,13 @@
                 <div class="post-create">
                     <section *ngIf="facebookUserAccessToken" class="app-section">
                         <h3>Send a post to Instagram</h3>
-                        <!-- <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." /> -->
-                        <div class="select-file">
-                            <label for="fileInput" class="isBold colorGray" id="dragDropLabel">Click or Drag &amp; Drop
-                                media</label>
-                            <input type="file" id="fileInput" accept="image/*,video/*" (change)="onSelect($event)"
-                                multiple />
-                            <div id="imagePreviewContainer"></div>
+                        <input [(ngModel)]="imageUrl" placeholder="Enter a JPEG image url..." />
+                        <button class="btn action-btn" (click)="addImageUrl()">Add</button>
+                        <div class="row">
+                            <div *ngFor="let item of imageUrlList;let index" class="col-md-3">
+                                <img src="{{item}}" style="height: 100px; width: 100px;" />
+                                <p (click)="removeImage(index)" style="cursor: pointer;">X</p>
+                            </div>
                         </div>
                         <textarea [(ngModel)]="cardText.response" placeholder=" Write a caption..."
                             rows="10"></textarea>
@@ -34,7 +34,7 @@
                             {{ item.response }} </div>
                         <input type="text" [(ngModel)]="taggedUsername" placeholder="Enter tagged username">
                         <button (click)="shareInstagramPost()" class="btn action-btn"
-                            [disabled]="isSharingPost || !imageUrl"> {{ isSharingPost ? 'Sharing...' : 'Share' }}
+                            [disabled]="isSharingPost || !imageUrlList"> {{ isSharingPost ? 'Sharing...' : 'Share' }}
                         </button>
                     </section>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="instagram-preview">
                     <div class="instagram-preview-inner">
-                        <div *ngFor="let image of imageUrl" class="instagram-image-box">
+                        <div *ngFor="let image of imageUrlList" class="instagram-image-box">
                             <img src="{{ image }}" width="100%">
                         </div>
                     </div>
