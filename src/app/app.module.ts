@@ -14,6 +14,7 @@ import { UrlInstagramComponent } from './url-instagram/url-instagram.component';
 import { PostManagementComponent } from './post-management/post-management.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,8 @@ import { HeaderComponent } from './header/header.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
+    ToastrModule.forRoot(), // ToastrModule added
+
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

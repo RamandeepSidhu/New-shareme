@@ -101,33 +101,39 @@ body {
 .action-btn {
   background-color: #2d88ff;
 }
-// .table-step {
-//   margin: 0 auto;
-//   margin-top: 16px;
-//   border-collapse: collapse;
-// }
+.toast-success {
+  background-color: #28a745; /* Green color */
+}
 
-// table {
-//   table-layout: fixed;
-//   width: 100%;
-// }
+/* Styles for Toastr error toasts */
+.toast-error {
+  background-color: #dc3545; /* Red color */
+}
 
-// td,
-// th {
-//   border: 1px solid #dddddd;
-//   padding: 8px;
-//   overflow: auto;
-//   overflow-y: hidden;
-// }
+/* Styles to position toasts at the top of the screen */
+.toast-top-right {
+  top: 0;
+  right: 0;
+}
 
-// html,
-// body {
-//   height: 100%;
-// }
-// body {
-//   margin: 0;
-//   font-family: Roboto, "Helvetica Neue", sans-serif;
-// }
+/* Additional styles to adjust the appearance of the toasts */
+.toast-message {
+  color: #ffffff; /* Text color */
+  font-size: 14px;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 6px;
+}
+
+.toast-container {
+  z-index: 9999; /* Ensure the toasts are on top of other elements */
+}
+
+@media (min-width: 991.98px) {
+  main {
+    padding-left: 240px;
+  }
+}
 
 @media (min-width: 991.98px) {
   main {

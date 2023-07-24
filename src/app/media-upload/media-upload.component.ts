@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
-import { Token } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 interface FacebookPage {
   id: string;
@@ -38,7 +38,7 @@ export class MediaUploadComponent {
   isAIAssistOpen: boolean = false;
   formData: FormData = new FormData();
   pageId: string = '110499812113968';
-  accessToken = 'EEAADjr33njLcBABmUoEbswwcYzzViwAd1ZBWw2BkqPRRAvb8uuTtSb1gEyDOZCa9KwvNWLyvTwfzQGfdkJ1hDDbtdgJpERUqNuZApse9ttRRGa6S48n9PHp8cmG4UBhYZBkq0NdZCEbfWINpM9K0MwZCiTwPGEgY9yLtjN8HoRIFQ7k68ZAW4IMUVHUzAylmjFheEhYQUE2OMOir9CEFcO0ZBueDfaZB06mTbzhaXTFj1ZCFRaan8n0oF25';
+  accessToken = 'EAADjr33njLcBAIFlvyQSSFfiz3iDdU8ftmZCjBEncE64w6QlUAocxwmObTv1sBjL97sZA6Jyw8O0YSTqFkAtgKoO2wp5QZCZBphasu6JsFZC8x4vq1lfdNca4BLZAE5izZCoWWiDcnvEPE5Ke6X5KeaiZCJ5FHMVZA4kZAmtQ9jxR5npyCqOAHwcq8Mq3oll0Lj13EM5WqMcEMlSZCGDMko6sCpThexYI9xaJ2fI2gm36c2aZBh7aJs9jY0r';
 
   hashtags = [
     { id: "spread", value: "#spread", color: 3, twitter: "8", instagram: null },
@@ -55,7 +55,7 @@ export class MediaUploadComponent {
   isSharingPost: boolean = false;
   hashtageStorge: any;
   imagePreview: any;
-  constructor(private openaiService: ChatGptService, private http: HttpClient, private cdRef: ChangeDetectorRef) { }
+  constructor(private openaiService: ChatGptService, private http: HttpClient, private cdRef: ChangeDetectorRef, private toastr: ToastrService) { }
   ngOnInit() {
     this.textList = [{ sno: 1, text: '', response: '' }];
     this.cardText = this.textList[0];
@@ -270,7 +270,7 @@ export class MediaUploadComponent {
       });
   }
 
-  onPublishClick() {
+  async onPublishClick() {
     const captionWithText = `${this.hastageCardText.response} ${this.cardText.response} `;
     if (this.selectedFile) {
       const formData = new FormData();
@@ -284,13 +284,18 @@ export class MediaUploadComponent {
         formData.append('file', file);
       }
 
-      this.publishToFacebook(formData, this.pageId, selectedFiles);
+      try {
+        await this.publishToFacebook(formData, this.pageId, selectedFiles);
+        this.toastr.success('Post published successfully!', 'Success');
+      } catch (error) {
+        console.error('Error publishing the post:', error);
+        this.toastr.error('Error publishing the post. Please try again later.', 'Error');
+      }
     } else {
       console.error('No file selected.');
+      this.toastr.error('Please select a file before publishing.', 'Error');
     }
   }
-
-
 }
 
 

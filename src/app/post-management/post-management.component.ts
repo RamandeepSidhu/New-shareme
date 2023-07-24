@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+
 import { ChatGptService } from '../Services/chat-gpt.service';
 declare const FB: any;
 export class textResponse {
@@ -20,7 +22,7 @@ export class PostManagementComponent {
   bioText: any
   isSharingPost: boolean = false;
   selectedFile: File | null = null;
-  taggedUsername: any = '';
+  taggedUsername: any = [];
   imageUrl: string = '';
   filteredHashtags: any = [];
 
@@ -31,8 +33,8 @@ export class PostManagementComponent {
   imagesData: string | undefined;
   creationId: any = 17990461106155950;
   pageId: string = '110499812113968';
-  accessToken = 'EAADjr33njLcBABvIXnITjmpd1wgUYrkmgq9XIq6zSZBqpfnoDlAJbNLal83fZBUYRbiStAi7cHOkBRlwprVaEqVuFHO4DcWv7KvvZCZCXoJ2SsvuvhRxoGolyfnln4hg0uur6opRo5SSEZBQV9SAutBtZBGHra9T58BNXE8peFtIS7vEgx65tnjrGUQ1cHA4LHc0ihIJYTMFuJWxUugOGK';
-  facebookUserAccessToken: any = 'EAADjr33njLcBAAd8XYLvIV8qYpdWbBDjAXsy7bYrZAIfWgXnCZChQfYDt0TnNgb2a4pMtOAiFkJZAW9EsvnDRNiZAuvTHaMuFW403j3jcVGnF9MC6ZAdEZCImIFqTmEYp43Nhv9uSkqFIEgsnSZBKLZC0Ei5IZCZAUHyDXk18WAYkkCh0M0rhiKrLAD5FyzRPWYetZCk3ZApZAPX82iWMAYLOwqFHcH2suOo6ZA6GwxtekgqKifrZA0IoEZBZAmr1';
+  accessToken = 'EAADjr33njLcBAId395mkyZBGwUzmK70a3ZCgZCUTnZB6IFv1OV1asjtptXbpO3HX4QZCayZBZBB0ldSKfjcOd7I44xWejxQroXpOb8vWZBYZB1dYTSPY9j8M07A5fZC8OleKTlVNkrxLPwKOs3uCL5tQTnaZBl0qjte2JZAlWweNCDrz4ojx0z8eNl2rZAxuaXsWgIqI3SQ4NGVHe5Dws6pxZAa1Q2TFgmHyamrfY5oShA43XeDTdowgNxGnzA';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAJMS2QYahVJys5wh4clFKIidAnoRPOPZBISZCAZAj3WmukWbMZB0DTS856bpAj6I7mZBu9kG1YqNzFcYPCN2FZCbloBk88ZCGl45yHDfaHb1AnlIIBSsZCRdTN2aVmhFk19L2fnblCgEOpFqcyKM06EyzK3VcaK9yi7oBr1hTEvXAPwXsveVZClsbA6ifQ8iIMkby7q9hf7QTlZBsk2uRfANLwse1wk3qSUxJk4O7mcsfX';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
@@ -49,7 +51,7 @@ export class PostManagementComponent {
   instagramUsername: any;
   profilePictureUrl: any;
   instagramProfileId: any;
-  constructor(private openaiService: ChatGptService, private http: HttpClient) { }
+  constructor(private openaiService: ChatGptService, private http: HttpClient, private toastr: ToastrService) { }
   addHashtagToBio(hashtag: string) {
     this.cardText.response += `${hashtag} `;
 
@@ -74,29 +76,7 @@ export class PostManagementComponent {
     });
   }
 
-  // async shareInstagramPost(): Promise<void> {
-  //   try {
-  //     this.isSharingPost = true;
-  //     const facebookPages = await this.getFacebookPages();
-  //     if (facebookPages && facebookPages.length > 0) {
-  //       const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
-  //       const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId, this.creationId);
-  //       await this.publishMediaObjectContainer(instagramAccountId);
 
-  //       this.isSharingPost = false;
-
-  //       // Reset the form state
-  //       this.imageUrl = '';
-  //       this.bioText = '';
-  //       this.taggedUsername = '';
-  //     } else {
-  //       console.log('No Facebook pages found.');
-  //     }
-  //   } catch (error) {
-  //     console.error('An error occurred while sharing the Instagram post:', error);
-  //     this.isSharingPost = false;
-  //   }
-  // }
   async shareInstagramPost(): Promise<void> {
     try {
       this.isSharingPost = true;
@@ -107,6 +87,7 @@ export class PostManagementComponent {
         const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
         const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
         await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
+        this.toastr.success('Post shared successfully!', 'Success');
 
         this.isSharingPost = false;
 
@@ -117,7 +98,8 @@ export class PostManagementComponent {
         console.log('No Facebook pages found.');
       }
     } catch (error) {
-      console.error('An error occurred while sharing the Instagram post:', error);
+      this.toastr.error('Error sharing the Instagram post. Please try again later.', 'Error');
+
       this.isSharingPost = false;
     }
   }
@@ -369,7 +351,6 @@ export class PostManagementComponent {
       this.hashtags = hashtagResponses.map((result) => {
         return result.response;
       });
-
       this.filterHashtags();
     });
   }
@@ -399,6 +380,7 @@ export class PostManagementComponent {
         this.showSpinner = false;
       })
       .catch((error) => {
+        this.toastr.error(error, 'Please check Api key Token !');
         console.error('Failed to generate text:', error);
         this.showSpinner = false;
       });
