@@ -1,8 +1,8 @@
 <!-- <app-header></app-header> -->
 <main style="margin-top: 58px;">
   <div class="faceBook-button">
-    <button *ngIf="!loggedIn" (click)="logInToFB()" class="btn action-btn"> Login with Facebook </button>
-    <button *ngIf="loggedIn" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook </button>
+    <!-- <button *ngIf="!loggedIn" (click)="logInToFB()" class="btn action-btn"> Login with Facebook </button> -->
+    <!-- <button *ngIf="loggedIn" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook </button> -->
     <div *ngIf="loggedIn">
       <img src="{{ user.response.picture.data.url }}">
       <div>

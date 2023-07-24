@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
+import { ToastrService } from 'ngx-toastr';
 declare const FB: any;
 export class textResponse {
   sno: number = 1;
@@ -20,7 +21,7 @@ export class PostManagementComponent {
   bioText: any
   isSharingPost: boolean = false;
   selectedFile: File | null = null;
-  taggedUsername: any = '';
+  taggedUsername: any = [];
   imageUrl: string = '';
   filteredHashtags: any = [];
 
@@ -30,9 +31,9 @@ export class PostManagementComponent {
   hastageCardText: any;
   imagesData: string | undefined;
   creationId: any = 17990461106155950;
-  facebookUserAccessToken = localStorage.getItem('facebookAccessToken');
+  // facebookUserAccessToken = localStorage.getItem('facebookAccessToken');
 
-  // facebookUserAccessToken: any = 'EAADjr33njLcBAOMcMaz2nGZBvbItWXyZBaDLmBN2ZCj89hzPzcP75mRZCtiAKvjuq7fuxZAP8rVVXTeOp3ow5azqgQdP3AK58UU1mwOn88oZCY9P4t1fBISNUEbmuaplQvipHsZC0Rln7o5D5UCKuEiZBRLtmfclSZAyrfE7sQZC6jpeBSOIFmskowYaUANuggWhUvnIiTJjR8twti8oYGsawjiSdHv4m7HFzgF8wudZAK5mZAaDHYkla3B6';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAIHAaLMKdKKepxkaWENm6Xh1obig1t2SZBOFEqbYLiOpQbZAB7as6O00aVVi3TlZBpNPn94Bm350LOnZAbM5Jd09P9Iu8bdfB3LdykzxPOn12R9jpiLasydL1HZCZCdXpaJ1uWqUTsd1Ool7NfstqA5GJS9pD5sWAZA0Mxob5o0GFV3GkxFdQ8aZBAi9aGJamnLY81SQPJEn';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
@@ -49,7 +50,9 @@ export class PostManagementComponent {
   instagramUsername: any;
   profilePictureUrl: any;
   instagramProfileId: any;
-  constructor(private openaiService: ChatGptService, private http: HttpClient) { }
+  constructor(private openaiService: ChatGptService, private http: HttpClient,
+    private toaster: ToastrService,
+  ) { }
   addHashtagToBio(hashtag: string) {
     this.cardText.response += `${hashtag} `;
 
@@ -73,7 +76,6 @@ export class PostManagementComponent {
       this.facebookUserAccessToken = '';
     });
   }
-
   async shareInstagramPost(): Promise<void> {
     try {
       this.isSharingPost = true;
@@ -86,7 +88,7 @@ export class PostManagementComponent {
         await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
 
         this.isSharingPost = false;
-
+        this.toaster.success('Post shared successfully!', 'Success');
         // Reset the form state
         this.imageUrl = '';
         this.hashtageStorge = '';
@@ -94,7 +96,7 @@ export class PostManagementComponent {
         console.log('No Facebook pages found.');
       }
     } catch (error) {
-      console.error('An error occurred while sharing the Instagram post:', error);
+      this.toaster.error('Error sharing the Instagram post. Please try again later.', 'Error');
       this.isSharingPost = false;
     }
   }
@@ -109,12 +111,12 @@ export class PostManagementComponent {
           creation_id: mediaObjectContainerId
         },
         (response: any) => {
-
           resolve(response.id);
         }
       );
     });
   }
+
 
   createMediaObjectContainer(instagramAccountId: string): Promise<string> {
     return new Promise((resolve) => {
@@ -127,10 +129,12 @@ export class PostManagementComponent {
           access_token: this.facebookUserAccessToken,
           image_url: this.imageUrl,
           caption: captionWithText,
-          user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+          // user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+          user_tags: JSON.stringify(
+            this.taggedUsername.map((username: any) => ({ username, x: 0.5, y: 0.5 }))
+          )
         },
         (response: any) => {
-          console.log(captionWithText);
           resolve(response.id);
         }
       );
@@ -158,7 +162,6 @@ export class PostManagementComponent {
           fields: 'instagram_business_account'
         },
         (response: any) => {
-          console.log(response.id.username)
           resolve(response.instagram_business_account.id);
         }
       );
@@ -178,6 +181,8 @@ export class PostManagementComponent {
         this.hashtageStorge = this.hastageCardText.response
         this.writeText = this.newTextList.find(f => f.text);
         this.filterHashtags();
+        this.captionWithText = text;
+
         return { text, response: text };
       });
     });
@@ -209,7 +214,7 @@ export class PostManagementComponent {
         this.hashtageStorge = this.cardText.response
         this.isCopied = false;
         this.filterHashtags();
-
+        this.captionWithText = text;
         return { text, response: text };
       });
     });
