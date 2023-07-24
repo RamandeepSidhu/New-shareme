@@ -34,7 +34,7 @@ export class PostManagementComponent {
   creationId: any = 17990461106155950;
   pageId: string = '110499812113968';
   accessToken = 'EAADjr33njLcBAId395mkyZBGwUzmK70a3ZCgZCUTnZB6IFv1OV1asjtptXbpO3HX4QZCayZBZBB0ldSKfjcOd7I44xWejxQroXpOb8vWZBYZB1dYTSPY9j8M07A5fZC8OleKTlVNkrxLPwKOs3uCL5tQTnaZBl0qjte2JZAlWweNCDrz4ojx0z8eNl2rZAxuaXsWgIqI3SQ4NGVHe5Dws6pxZAa1Q2TFgmHyamrfY5oShA43XeDTdowgNxGnzA';
-  facebookUserAccessToken: any = 'EAADjr33njLcBAJMS2QYahVJys5wh4clFKIidAnoRPOPZBISZCAZAj3WmukWbMZB0DTS856bpAj6I7mZBu9kG1YqNzFcYPCN2FZCbloBk88ZCGl45yHDfaHb1AnlIIBSsZCRdTN2aVmhFk19L2fnblCgEOpFqcyKM06EyzK3VcaK9yi7oBr1hTEvXAPwXsveVZClsbA6ifQ8iIMkby7q9hf7QTlZBsk2uRfANLwse1wk3qSUxJk4O7mcsfX';
+  facebookUserAccessToken: any = 'EAADjr33njLcBAMtxP6CiFFa7O1DEEmLN2quqzcr7ibr7ZASquwsKbGZA6olO8KgoZCfXtXfBa2pKricN6ZCoVryIZC9e1hV9PuqVLZBF1h5o3yqXmA8JVTkLQA66707MzXWp6diXZCN8h9Jle9cBCxnrPF4a8ZCgpomZAtoLAb1CJg9uCyzyctg9bR1ckQZBU4U4ZBdx1nRyP56lwZBkZCA6TQyiX5RFbeisKZABLh1n0wxZBJhJ5LIpBOD1R14';
   textList: textResponse[] = [{ sno: 1, text: '', response: '' }];
   showSpinner = false;
   writeText: any;
