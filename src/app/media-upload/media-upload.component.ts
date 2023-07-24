@@ -39,7 +39,7 @@ export class MediaUploadComponent {
   isAIAssistOpen: boolean = false;
   formData: FormData = new FormData();
   pageId: string = '110499812113968';
-  accessToken = 'EAADjr33njLcBAJZCudPg2ifhFuj6LA9Wd5VDjAaZCbIklZCazTi6qbIvto4pxkaNZB9ZCYy7ZCxTONNjHzIComD2C5td8dGqpNDM3DadJDBUyu56DKnlaOP8tZAgxBk5nlY0bYujEe5DzSW9BzM5vZBdrH6nQlZACsKUtPc2Ogqxp69EFYfJ8ejLxoflRSijW7tRylAu6cA1XXZA3AY46CC7bCj5v7RMMRKNRYUEcJWrJlnThEZBtCNZA8Ky';
+  accessToken = 'EAADjr33njLcBANe4DL6TUAe0fUVKIkPPCXPrcfZB0WdN9p9u5sRdQtPn3JT0smHPRU2Xx9MdnpafIVyWCTuQpMHY9t9EX8mrKW1fDZAIUfD66cDhNqQ3cOMIXEjRlINmasM0Vh5qTW8X6PSMWnPDAjSODYx2OgoGMXSKtIYFZA47YhcPsoSVvok8TpZAxzyGgYVQGtnL1Unu5uPBQP8RzFtegvMLaDIdFd1aj8Ok87tF4xHt8nYL';
 
   hashtags = [
     { id: "spread", value: "#spread", color: 3, twitter: "8", instagram: null },
