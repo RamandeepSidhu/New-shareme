@@ -1,10 +1,4 @@
 <main style="margin-top: 58px;">
-    <section class="app-section">
-        <button *ngIf="!facebookUserAccessToken" (click)="logInToFB()" class="btn action-btn"> Login with Facebook
-        </button>
-        <button *ngIf="facebookUserAccessToken" (click)="logOutOfFB()" class="btn action-btn"> Log out of Facebook
-        </button>
-    </section>
     <div class="container pt-4">
         <div class="flex-container">
             <div class="flex-child magenta">
@@ -53,7 +47,7 @@
                     </ng-template>
                     <div class="caption">
                         <div class="post-text"> {{ cardText.response }}</div>
-                        <div class="hashtags"> {{captionWithText}} </div>
+                        <!-- <div class="hashtags"> {{captionWithText}} </div> -->
                         <div class="tagged-username">{{ taggedUsername }}</div>
                     </div>
                 </div>

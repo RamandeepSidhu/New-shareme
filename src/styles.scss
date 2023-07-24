@@ -101,6 +101,7 @@ body {
 .action-btn {
   background-color: #2d88ff;
 }
+/* Styles for Toastr success toasts */
 .toast-success {
   background-color: #28a745; /* Green color */
 }
@@ -127,12 +128,6 @@ body {
 
 .toast-container {
   z-index: 9999; /* Ensure the toasts are on top of other elements */
-}
-
-@media (min-width: 991.98px) {
-  main {
-    padding-left: 240px;
-  }
 }
 
 @media (min-width: 991.98px) {

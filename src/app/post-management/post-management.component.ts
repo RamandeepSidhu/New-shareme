@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-
 import { ChatGptService } from '../Services/chat-gpt.service';
+import { ToastrService } from 'ngx-toastr';
 declare const FB: any;
 export class textResponse {
   sno: number = 1;
@@ -51,7 +50,9 @@ export class PostManagementComponent {
   instagramUsername: any;
   profilePictureUrl: any;
   instagramProfileId: any;
-  constructor(private openaiService: ChatGptService, private http: HttpClient, private toastr: ToastrService) { }
+  constructor(private openaiService: ChatGptService, private http: HttpClient,
+    private toaster: ToastrService,
+  ) { }
   addHashtagToBio(hashtag: string) {
     this.cardText.response += `${hashtag} `;
 
@@ -67,7 +68,7 @@ export class PostManagementComponent {
     FB.login((response: any) => {
       this.facebookUserAccessToken = response.authResponse?.accessToken;
     }, {
-      scope: 'instagram_basic,pages_show_list'
+      scope: 'instagram_basic,pages_show_list,token'
     });
   }
   logOutOfFB(): void {
@@ -75,8 +76,6 @@ export class PostManagementComponent {
       this.facebookUserAccessToken = '';
     });
   }
-
-
   async shareInstagramPost(): Promise<void> {
     try {
       this.isSharingPost = true;
@@ -87,10 +86,10 @@ export class PostManagementComponent {
         const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
         const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
         await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
-        this.toastr.success('Post shared successfully!', 'Success');
+        this.toaster.success('Post shared successfully!', 'Success');
 
         this.isSharingPost = false;
-
+        this.toaster.success('Post shared successfully!', 'Success');
         // Reset the form state
         this.imageUrl = '';
         this.hashtageStorge = '';
@@ -98,8 +97,7 @@ export class PostManagementComponent {
         console.log('No Facebook pages found.');
       }
     } catch (error) {
-      this.toastr.error('Error sharing the Instagram post. Please try again later.', 'Error');
-
+      this.toaster.error('Error sharing the Instagram post. Please try again later.', 'Error');
       this.isSharingPost = false;
     }
   }
@@ -120,6 +118,7 @@ export class PostManagementComponent {
     });
   }
 
+
   createMediaObjectContainer(instagramAccountId: string): Promise<string> {
     return new Promise((resolve) => {
       const captionWithText = `${this.hastageCardText.response} ${this.cardText.response} `;
@@ -131,10 +130,12 @@ export class PostManagementComponent {
           access_token: this.facebookUserAccessToken,
           image_url: this.imageUrl,
           caption: captionWithText,
-          user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+          // user_tags: JSON.stringify([{ username: this.taggedUsername, x: 0.5, y: 0.5 }])
+          user_tags: JSON.stringify(
+            this.taggedUsername.map((username: any) => ({ username, x: 0.5, y: 0.5 }))
+          )
         },
         (response: any) => {
-          console.log(captionWithText);
           resolve(response.id);
         }
       );
@@ -162,169 +163,12 @@ export class PostManagementComponent {
           fields: 'instagram_business_account'
         },
         (response: any) => {
-          console.log(response.id.username)
           resolve(response.instagram_business_account.id);
         }
       );
     });
   }
 
-  onSelectFile(event: any) {
-    const fileReader: FileReader = new FileReader();
-    const file = event.target.files[0];
-    this.selectedFile = file;
-
-    const pageAccessToken = this.facebookUserAccessToken
-
-    fileReader.onloadend = () => {
-      const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
-
-      const formData = new FormData();
-      formData.append('access_token', pageAccessToken);
-      formData.append('image_url', photoData);
-      formData.append('message', this.bioText);
-
-      const imageURL = URL.createObjectURL(file);
-      const imagePreview = document.createElement('img');
-      imagePreview.src = imageURL;
-      document.body.appendChild(imagePreview);
-      this.imagesData = this.selectedFile?.name
-
-      console.log(this.imagesData);
-    };
-
-    fileReader.readAsArrayBuffer(file);
-  }
-
-  // Facebook
-  onPublishClick() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('access_token', this.accessToken);
-      formData.append('message', this.bioText);
-      formData.append('story_tags', this.taggedUsername);
-
-      const selectedFiles = Array.isArray(this.selectedFile) ? this.selectedFile : [this.selectedFile];
-
-      for (const file of selectedFiles) {
-        formData.append('file', file);
-      }
-
-      this.publishToFacebook(formData, this.pageId, selectedFiles);
-    } else {
-      console.error('No file selected.');
-    }
-  }
-  onSelectFacebook(event: any) {
-    const fileReader: FileReader = new FileReader();
-    const file = event.target.files[0];
-    this.selectedFile = file;
-
-    const pageAccessToken = 'EAADjr33njLcBABvIXnITjmpd1wgUYrkmgq9XIq6zSZBqpfnoDlAJbNLal83fZBUYRbiStAi7cHOkBRlwprVaEqVuFHO4DcWv7KvvZCZCXoJ2SsvuvhRxoGolyfnln4hg0uur6opRo5SSEZBQV9SAutBtZBGHra9T58BNXE8peFtIS7vEgx65tnjrGUQ1cHA4LHc0ihIJYTMFuJWxUugOGK';
-
-    fileReader.onloadend = () => {
-      const photoData = new Blob([fileReader.result as ArrayBuffer], { type: 'image/jpg' });
-      const formData = new FormData();
-      formData.append('access_token', pageAccessToken);
-      formData.append('source', photoData);
-      formData.append('message', this.bioText);
-
-      const imageURL = URL.createObjectURL(file);
-      const imagePreview = document.createElement('img');
-      imagePreview.src = imageURL;
-      document.body.appendChild(imagePreview);
-      console.log(this.selectedFile);
-    };
-
-    fileReader.readAsArrayBuffer(file);
-  }
-  publishToFacebook(formData: FormData, pageId: any, selectedFiles: File[]) {
-    const publishURL = `https://graph.facebook.com/${pageId}/videos`;
-    const publishPhotoURL = `https://graph.facebook.com/${pageId}/photos`;
-    const publishFeedURL = `https://graph.facebook.com/${pageId}/feed`;
-
-    const uploadPromises = [];
-    const feedPromises = [];
-
-    for (const file of selectedFiles) {
-      if (file instanceof File) {
-        const fileType = file.type;
-        const isImage = fileType.startsWith('image/');
-        const isVideo = fileType.startsWith('video/');
-
-        if (isImage || isVideo) {
-          const uploadFormData = new FormData();
-          uploadFormData.append('access_token', formData.get('access_token') as string);
-          uploadFormData.append('source', file);
-          uploadFormData.append('description', this.bioText);
-          uploadFormData.append('message', this.bioText); // Add the bio text
-          uploadFormData.append('user_tags', this.taggedUsername); // Add the bio text
-
-          if (isImage) {
-            uploadPromises.push(
-              fetch(publishPhotoURL, {
-                body: uploadFormData,
-                method: 'POST'
-              })
-                .then((response) => response.json())
-                .then((responseData) => {
-                  console.log('Photo published successfully:', responseData);
-                })
-                .catch((error) => {
-                  console.error('Error publishing photo:', error);
-                })
-            );
-          } else if (isVideo) {
-            uploadPromises.push(
-              fetch(publishURL, {
-                body: uploadFormData,
-                method: 'POST'
-              })
-                .then((response) => response.json())
-                .then((responseData) => {
-                  console.log('Video published successfully:', responseData);
-                })
-                .catch((error) => {
-                  console.error('Error publishing video:', error);
-                })
-            );
-          }
-        } else {
-          console.error('Unsupported file type:', fileType);
-        }
-      } else {
-        console.error('Invalid file:', file);
-      }
-    }
-
-    const feedFormData = new FormData();
-    feedFormData.append('access_token', formData.get('access_token') as string);
-    feedFormData.append('message', this.bioText);
-    feedFormData.append('description', this.bioText);
-    feedFormData.append('user_tags', this.taggedUsername); // Add the bio text
-
-    feedPromises.push(
-      fetch(publishFeedURL, {
-        body: feedFormData,
-        method: 'POST'
-      })
-        .then((response) => response.json())
-        .then((responseData) => {
-          console.log('Feed post published successfully:', responseData);
-        })
-        .catch((error) => {
-          console.error('Error publishing feed post:', error);
-        })
-    );
-
-    Promise.all([...uploadPromises, ...publishFeedURL])
-      .then(() => {
-        console.log('All files and feed post published successfully.');
-      })
-      .catch((error) => {
-        console.error('Error publishing files and feed post:', error);
-      });
-  }
   // ChatGPT
 
   hastageText(dataList: textResponse[], searchText: any) {
@@ -338,6 +182,8 @@ export class PostManagementComponent {
         this.hashtageStorge = this.hastageCardText.response
         this.writeText = this.newTextList.find(f => f.text);
         this.filterHashtags();
+        this.captionWithText = text;
+
         return { text, response: text };
       });
     });
@@ -368,7 +214,7 @@ export class PostManagementComponent {
         this.hashtageStorge = this.cardText.response
         this.isCopied = false;
         this.filterHashtags();
-
+        this.captionWithText = text;
         return { text, response: text };
       });
     });
@@ -380,7 +226,7 @@ export class PostManagementComponent {
         this.showSpinner = false;
       })
       .catch((error) => {
-        this.toastr.error(error, 'Please check Api key Token !');
+        this.toaster.error(error, 'Please check Api key Token !');
         console.error('Failed to generate text:', error);
         this.showSpinner = false;
       });
@@ -431,6 +277,7 @@ export class PostManagementComponent {
       });
   }
   ngOnInit(): void {
+
     this.getInstagramProfileData();
   }
 }

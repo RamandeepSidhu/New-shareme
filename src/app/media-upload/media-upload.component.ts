@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
-import { ToastrService } from 'ngx-toastr';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+
 interface FacebookPage {
   id: string;
   name: string;
@@ -55,7 +56,7 @@ export class MediaUploadComponent {
   isSharingPost: boolean = false;
   hashtageStorge: any;
   imagePreview: any;
-  constructor(private openaiService: ChatGptService, private http: HttpClient, private cdRef: ChangeDetectorRef, private toastr: ToastrService) { }
+  constructor(private openaiService: ChatGptService, private http: HttpClient, private cdRef: ChangeDetectorRef, private toaster: ToastrService) { }
   ngOnInit() {
     this.textList = [{ sno: 1, text: '', response: '' }];
     this.cardText = this.textList[0];
@@ -283,17 +284,16 @@ export class MediaUploadComponent {
       for (const file of selectedFiles) {
         formData.append('file', file);
       }
-
       try {
         await this.publishToFacebook(formData, this.pageId, selectedFiles);
-        this.toastr.success('Post published successfully!', 'Success');
+        this.toaster.success('Post published successfully!', 'Success');
       } catch (error) {
         console.error('Error publishing the post:', error);
-        this.toastr.error('Error publishing the post. Please try again later.', 'Error');
+        this.toaster.error('Error publishing the post. Please try again later.', 'Error');
       }
     } else {
       console.error('No file selected.');
-      this.toastr.error('Please select a file before publishing.', 'Error');
+      this.toaster.error('Please select a file before publishing.', 'Error');
     }
   }
 }
