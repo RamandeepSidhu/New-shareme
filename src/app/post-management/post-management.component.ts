@@ -86,6 +86,7 @@ export class PostManagementComponent {
         const instagramAccountId = await this.getInstagramAccountId(facebookPages[0].id);
         const mediaObjectContainerId = await this.createMediaObjectContainer(instagramAccountId);
         await this.publishMediaObjectContainer(instagramAccountId, mediaObjectContainerId);
+        this.toaster.success('Post shared successfully!', 'Success');
 
         this.isSharingPost = false;
         this.toaster.success('Post shared successfully!', 'Success');
@@ -196,7 +197,6 @@ export class PostManagementComponent {
       this.hashtags = hashtagResponses.map((result) => {
         return result.response;
       });
-
       this.filterHashtags();
     });
   }
@@ -226,6 +226,7 @@ export class PostManagementComponent {
         this.showSpinner = false;
       })
       .catch((error) => {
+        this.toaster.error(error, 'Please check Api key Token !');
         console.error('Failed to generate text:', error);
         this.showSpinner = false;
       });

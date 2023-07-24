@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ChatGptService } from '../Services/chat-gpt.service';
-import { Token } from '@angular/compiler';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 

@@ -14,10 +14,7 @@ import { UrlInstagramComponent } from './url-instagram/url-instagram.component';
 import { PostManagementComponent } from './post-management/post-management.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
-import { FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
-import { FacebookAuthService } from './Services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +23,7 @@ import { ToastrModule } from 'ngx-toastr';
     UrlInstagramComponent,
     PostManagementComponent,
     SidebarComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -40,29 +36,10 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    SocialLoginModule,
-    ToastrModule.forRoot(),
-
+    ToastrModule.forRoot(), // ToastrModule added
 
   ],
-  providers: [
-    FacebookAuthService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('250342871108791')
-          }
-        ],
-        onError: (err) => {
-          console.error(err);
-        }
-      } as SocialAuthServiceConfig,
-    }
-  ],
+  providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
